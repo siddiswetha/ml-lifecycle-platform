@@ -1,0 +1,40 @@
+services:
+  registry:
+    build:
+      context: .
+      dockerfile: services/registry/Dockerfile
+    ports:
+      - "8201:8201"
+    environment:
+      - PORT=8201
+      - REGISTRY_PATH=/app/data/registry.json
+    volumes:
+      - ./data:/app/data
+  trainer:
+    build:
+      context: .
+      dockerfile: services/trainer/Dockerfile
+    ports:
+      - "8202:8202"
+    environment:
+      - PORT=8202
+      - REGISTRY_PATH=/app/data/registry.json
+      - JOBS_PATH=/app/data/jobs.json
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - registry
+  serving:
+    build:
+      context: .
+      dockerfile: services/serving/Dockerfile
+    ports:
+      - "8203:8203"
+    environment:
+      - PORT=8203
+      - REGISTRY_PATH=/app/data/registry.json
+      - BASELINE_PATH=/app/data/synthetic.csv
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - registry
