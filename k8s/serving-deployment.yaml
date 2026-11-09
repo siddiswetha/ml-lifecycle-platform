@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-serving
+  template:
+    metadata:
+      labels:
+        app: ml-serving
+    spec:
+      containers:
+        - name: serving
+          image: ml-lifecycle-platform-serving:latest
+          ports:
+            - containerPort: 8203
+          env:
+            - name: PORT
+              value: "8203"
+            - name: REGISTRY_PATH
+              value: "/app/data/registry.json"
+            - name: BASELINE_PATH
+              value: "/app/data/synthetic.csv"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-serving
+spec:
+  selector:
+    app: ml-serving
+  ports:
+    - port: 8203
+      targetPort: 8203

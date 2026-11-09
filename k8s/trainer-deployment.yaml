@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-trainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-trainer
+  template:
+    metadata:
+      labels:
+        app: ml-trainer
+    spec:
+      containers:
+        - name: trainer
+          image: ml-lifecycle-platform-trainer:latest
+          ports:
+            - containerPort: 8202
+          env:
+            - name: PORT
+              value: "8202"
+            - name: REGISTRY_PATH
+              value: "/app/data/registry.json"
+            - name: JOBS_PATH
+              value: "/app/data/jobs.json"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-trainer
+spec:
+  selector:
+    app: ml-trainer
+  ports:
+    - port: 8202
+      targetPort: 8202

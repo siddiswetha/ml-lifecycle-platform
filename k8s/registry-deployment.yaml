@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-registry
+  template:
+    metadata:
+      labels:
+        app: ml-registry
+    spec:
+      containers:
+        - name: registry
+          image: ml-lifecycle-platform-registry:latest
+          ports:
+            - containerPort: 8201
+          env:
+            - name: PORT
+              value: "8201"
+            - name: REGISTRY_PATH
+              value: "/app/data/registry.json"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-registry
+spec:
+  selector:
+    app: ml-registry
+  ports:
+    - port: 8201
+      targetPort: 8201
