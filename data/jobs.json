@@ -1,0 +1,56 @@
+{
+  "job-001": {
+    "job_id": "job-001",
+    "dataset_path": "data/synthetic.csv",
+    "status": "succeeded",
+    "attempts": 1,
+    "result": {
+      "job_id": "job-001",
+      "train_n": 480,
+      "held_out_n": 120,
+      "metrics": {
+        "n": 120,
+        "accuracy": 0.7583,
+        "precision": 0.6667,
+        "recall": 0.6818,
+        "f1": 0.6742,
+        "tp": 30,
+        "tn": 61,
+        "fp": 15,
+        "fn": 14,
+        "auc": 0.7925
+      },
+      "gate_passed": true,
+      "registered_version": "v1"
+    },
+    "error": null,
+    "created_at": "2026-11-09T08:13:38.850267+00:00"
+  },
+  "job-002": {
+    "job_id": "job-002",
+    "dataset_path": "data/synthetic.csv",
+    "status": "succeeded",
+    "attempts": 1,
+    "result": {
+      "job_id": "job-002",
+      "train_n": 480,
+      "held_out_n": 120,
+      "metrics": {
+        "n": 120,
+        "accuracy": 0.7583,
+        "precision": 0.6667,
+        "recall": 0.6818,
+        "f1": 0.6742,
+        "tp": 30,
+        "tn": 61,
+        "fp": 15,
+        "fn": 14,
+        "auc": 0.7925
+      },
+      "gate_passed": true,
+      "registered_version": "v2"
+    },
+    "error": null,
+    "created_at": "2026-11-09T08:13:39.453874+00:00"
+  }
+}
