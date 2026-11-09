@@ -1,0 +1,86 @@
+{
+  "runs": [
+    {
+      "job_id": "job-001",
+      "model_version": "v1",
+      "train_n": 480,
+      "held_out_n": 120,
+      "metrics": {
+        "n": 120,
+        "accuracy": 0.7583,
+        "precision": 0.6667,
+        "recall": 0.6818,
+        "f1": 0.6742,
+        "tp": 30,
+        "tn": 61,
+        "fp": 15,
+        "fn": 14,
+        "auc": 0.7925
+      },
+      "gate_passed": true,
+      "created_at": "2026-11-09T08:13:39.295309+00:00"
+    },
+    {
+      "job_id": "job-002",
+      "model_version": "v2",
+      "train_n": 480,
+      "held_out_n": 120,
+      "metrics": {
+        "n": 120,
+        "accuracy": 0.7583,
+        "precision": 0.6667,
+        "recall": 0.6818,
+        "f1": 0.6742,
+        "tp": 30,
+        "tn": 61,
+        "fp": 15,
+        "fn": 14,
+        "auc": 0.7925
+      },
+      "gate_passed": true,
+      "created_at": "2026-11-09T08:13:39.756969+00:00"
+    }
+  ],
+  "predictions": {
+    "total_predictions": 2,
+    "quarantined": 1,
+    "mean_probability": 0.6528
+  },
+  "drift": {
+    "total_drift_checks": 0,
+    "drifted": 0
+  },
+  "current_model": {
+    "version": "v1",
+    "status": "promoted",
+    "metrics": {
+      "n": 120,
+      "accuracy": 0.7583,
+      "precision": 0.6667,
+      "recall": 0.6818,
+      "f1": 0.6742,
+      "tp": 30,
+      "tn": 61,
+      "fp": 15,
+      "fn": 14,
+      "auc": 0.7925
+    }
+  },
+  "held_out_metrics": {
+    "model_version": "v1",
+    "dataset": "data/synthetic.csv",
+    "held_out_n": 120,
+    "metrics": {
+      "n": 120,
+      "accuracy": 0.7583,
+      "precision": 0.6667,
+      "recall": 0.6818,
+      "f1": 0.6742,
+      "tp": 30,
+      "tn": 61,
+      "fp": 15,
+      "fn": 14,
+      "auc": 0.7925
+    }
+  }
+}

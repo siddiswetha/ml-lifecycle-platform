@@ -1,0 +1,17 @@
+{
+  "model_version": "v1",
+  "dataset": "data/synthetic.csv",
+  "held_out_n": 120,
+  "metrics": {
+    "n": 120,
+    "accuracy": 0.7583,
+    "precision": 0.6667,
+    "recall": 0.6818,
+    "f1": 0.6742,
+    "tp": 30,
+    "tn": 61,
+    "fp": 15,
+    "fn": 14,
+    "auc": 0.7925
+  }
+}
