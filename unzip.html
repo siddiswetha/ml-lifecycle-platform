@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head><meta charset='utf-8'><title>unzip</title></head>
+<body>
+<h1>Zip extractor</h1>
+<input type='file' id='f' accept='.zip'>
+<p id='status'>Choose the zip.</p>
+<ol id='list'></ol>
+<h2 id='fname'></h2>
+<pre id='view'></pre>
+<script>
+(function(){
+async function go(file){
+ var buf=new Uint8Array(await file.arrayBuffer());
+ var dv=new DataView(buf.buffer);
+ var eocd=-1;
+ for(var i=buf.length-22;i>=0;i--){if(buf[i]===80&&buf[i+1]===75&&buf[i+2]===5&&buf[i+3]===6){eocd=i;break;}}
+ if(eocd<0){document.getElementById('status').textContent='EOCD not found';return;}
+ var count=dv.getUint16(eocd+10,true);
+ var cdOff=dv.getUint32(eocd+16,true);
+ var p=cdOff;var items=[];
+ for(var k=0;k<count;k++){
+  var method=dv.getUint16(p+10,true);
+  var cs=dv.getUint32(p+20,true);
+  var nlen=dv.getUint16(p+28,true);
+  var elen=dv.getUint16(p+30,true);
+  var clen=dv.getUint16(p+32,true);
+  var loff=dv.getUint32(p+42,true);
+  var name=new TextDecoder().decode(buf.subarray(p+46,p+46+nlen));
+  p+=46+nlen+elen+clen;
+  if(name.slice(-1)==='/'){continue;}
+  items.push({name:name,method:method,cs:cs,loff:loff});
+ }
+ document.getElementById('status').textContent='files: '+items.length;
+ var list=document.getElementById('list');
+ for(var j=0;j<items.length;j++){
+  var it=items[j];
+  var ln=dv.getUint16(it.loff+26,true);
+  var le=dv.getUint16(it.loff+28,true);
+  var start=it.loff+30+ln+le;
+  var comp=buf.subarray(start,start+it.cs);
+  var text='';
+  if(it.method===0){text=new TextDecoder().decode(comp);}
+  else if(it.method===8){var ds=new DecompressionStream('deflate-raw');var s=new Blob([comp]).stream().pipeThrough(ds);text=new TextDecoder().decode(await new Response(s).arrayBuffer());}
+  else{text='UNSUPPORTED METHOD '+it.method;}
+  it.text=text;
+  var li=document.createElement('li');
+  var sp=document.createElement('span');
+  sp.textContent=it.name+' ('+text.length+')';
+  sp.style.cursor='pointer';sp.style.color='blue';
+  sp.onclick=(function(t,n){return function(){document.getElementById('fname').textContent=n;document.getElementById('view').textContent=t;};})(text,it.name);
+  var a=document.createElement('a');
+  a.textContent=' download';
+  a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));
+  a.download=it.name.split('/').pop();
+  li.appendChild(sp);li.appendChild(a);list.appendChild(li);
+ }
+}
+document.getElementById('f').addEventListener('change',function(e){go(e.target.files[0]);});
+})();
+</script>
+</body>
+</html>
