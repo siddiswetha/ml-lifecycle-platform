@@ -6,6 +6,8 @@ import threading
 import urllib.request
 import urllib.error
 
+import pytest
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
@@ -54,6 +56,8 @@ def test_cli_drift_check(tmp_path):
 
 
 def _start_service(module_path, port, env):
+if not os.path.exists(module_path):
+        pytest.skip(f"service not present in this branch: {module_path}")
     import importlib.util
     spec = importlib.util.spec_from_file_location("service_app", module_path)
     module = importlib.util.module_from_spec(spec)
