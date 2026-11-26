@@ -56,7 +56,7 @@ def test_cli_drift_check(tmp_path):
 
 
     def _start_service(module_path, port, env):
-if not os.path.exists(module_path):
+    if not os.path.exists(module_path):
         pytest.skip(f"service not present in this branch: {module_path}")
     import importlib.util
     spec = importlib.util.spec_from_file_location("service_app", module_path)
