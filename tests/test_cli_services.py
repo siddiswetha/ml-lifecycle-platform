@@ -55,7 +55,7 @@ def test_cli_drift_check(tmp_path):
     assert json.loads(result.stdout)["drifted"] is False
 
 
-    def _start_service(module_path, port, env):
+def _start_service(module_path, port, env):
     if not os.path.exists(module_path):
         pytest.skip(f"service not present in this branch: {module_path}")
     import importlib.util
